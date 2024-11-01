@@ -551,6 +551,22 @@ require('lazy').setup({
             },
           },
         },
+
+        azure_pipelines_ls = {
+          settings = {
+            yaml = {
+              schemas = {
+                ['https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json'] = {
+                  'pipelines/*.y*l',
+                  'azure-pipelines.yml',
+                  'azure-pipelines.yaml',
+                  '*.azure-pipelines.yml',
+                  '*.azure-pipelines.yaml',
+                },
+              },
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -842,7 +858,13 @@ require('lazy').setup({
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
+  {
+    'tpope/vim-fugitive',
+    config = function()
+      vim.keymap.set('n', '<leader>gc', '<cmd>:Git commit -a<CR> i', { desc = 'Git commit' })
+      vim.keymap.set('n', '<leader>gp', '<cmd>:Git push<CR>', { desc = 'Git push' })
+    end,
+  },
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
@@ -874,3 +896,8 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==')
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==')
+
+vim.lsp.set_log_level 'debug'
