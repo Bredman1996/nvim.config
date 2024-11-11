@@ -80,7 +80,7 @@ vim.o.shiftwidth = 4
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
--- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -430,6 +430,10 @@ require('lazy').setup({
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
+          vim.bo[event.buf].tabstop = 4
+          vim.bo[event.buf].shiftwidth = 4
+          vim.bo[event.buf].expandtab = true
+
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
@@ -549,6 +553,25 @@ require('lazy').setup({
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               -- diagnostics = { disable = { 'missing-fields' } },
             },
+          },
+        },
+
+        powershell_es = {
+          filetypes = {
+            'ps1',
+            'psm1',
+            'psd1',
+          },
+          settings = {
+            powershell = {
+              codeFormatting = {
+                tabSize = 4,
+                useTabs = false,
+              },
+            },
+          },
+          init_options = {
+            enableProfileLoading = false,
           },
         },
 
@@ -861,8 +884,11 @@ require('lazy').setup({
   {
     'tpope/vim-fugitive',
     config = function()
-      vim.keymap.set('n', '<leader>gc', '<cmd>:Git commit -a<CR> i', { desc = 'Git commit' })
+      vim.keymap.set('n', '<leader>gc', '<cmd>:Git commit -a<CR>', { desc = 'Git commit' })
       vim.keymap.set('n', '<leader>gp', '<cmd>:Git push<CR>', { desc = 'Git push' })
+      vim.keymap.set('n', '<leader>gnb', '<cmd>:Git checkout -b<CR>', { desc = 'Git new branch' })
+      vim.keymap.set('n', '<leader>gs', '<cmd>:Git status<CR>', { desc = 'Git status' })
+      vim.keymap.set('n', '<leader>gaa', '<cmd>:Git add .<CR>', { desc = 'Git add all' })
     end,
   },
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
