@@ -203,7 +203,7 @@ return {
                 activateSnykIac = 'true',
                 activateSnykOpenSource = 'true',
                 activateSnykCode = 'true',
-                token = '',
+                token = os.getenv 'SNYK_TOKEN',
                 organization = 'Devops-OnPrem',
                 trustedFolders = { '/home/bredman/source/' },
               },
