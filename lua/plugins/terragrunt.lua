@@ -9,7 +9,7 @@ return {
       },
     }
     if terragrunt_ls.client then
-      vim.api.nvim.create_autocmd('FileType', {
+      vim.api.nvim_create_autocmd('FileType', {
         pattern = 'hcl',
         callback = function()
           vim.lsp.buf_attach_client(0, terragrunt_ls.client)
