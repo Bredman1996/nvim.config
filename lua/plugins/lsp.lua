@@ -1,25 +1,25 @@
 return {
-    {
-        -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-        -- used for completion, annotations and signatures of Neovim apis
-        'folke/lazydev.nvim',
-        ft = 'lua',
-        opts = {
-            library = {
-                -- Load luvit types when the `vim.uv` word is found
-                { path = 'luvit-meta/library', words = { 'vim%.uv' } },
-            },
-        },
+  {
+    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+    -- used for completion, annotations and signatures of Neovim apis
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {
+      library = {
+        -- Load luvit types when the `vim.uv` word is found
+        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+      },
     },
-    { 'Bilal2453/luvit-meta', lazy = true },
-    {
-        -- Main LSP Configuration
-        'neovim/nvim-lspconfig',
-        dependencies = {
-            -- Automatically install LSPs and related tools to stdpath for Neovim
-            { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-            'williamboman/mason-lspconfig.nvim',
-            'WhoIsSethDaniel/mason-tool-installer.nvim',
+  },
+  { 'Bilal2453/luvit-meta', lazy = true },
+  {
+    -- Main LSP Configuration
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      -- Automatically install LSPs and related tools to stdpath for Neovim
+      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      'williamboman/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -193,6 +193,55 @@ return {
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               -- diagnostics = { disable = { 'missing-fields' } },
+            },
+            terraformls = {},
+            hclfmt = {},
+            snyk_ls = {
+              filetypes = { 'terraform', 'terraform-vars' },
+              settings = {},
+              init_options = {
+                activateSnykIac = 'true',
+                activateSnykOpenSource = 'true',
+                activateSnykCode = 'true',
+                token = '',
+                organization = 'Devops-OnPrem',
+                trustedFolders = { '/home/bredman/source/' },
+              },
+            },
+            powershell_es = {
+              filetypes = {
+                'ps1',
+                'psm1',
+                'psd1',
+              },
+              settings = {
+                powershell = {
+                  codeFormatting = {
+                    tabSize = 4,
+                    useTabs = false,
+                  },
+                },
+              },
+              init_options = {
+                enableProfileLoading = false,
+              },
+            },
+            azure_pipelines_ls = {
+              settings = {
+                settings = {
+                  yaml = {
+                    schemas = {
+                      ['https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json'] = {
+                        'pipelines/*.y*l',
+                        'azure-pipelines.yml',
+                        'azure-pipelines.yaml',
+                        '*.azure-pipelines.yml',
+                        '*.azure-pipelines.yaml',
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
         },
