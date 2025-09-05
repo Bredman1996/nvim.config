@@ -1,3 +1,5 @@
+local snyk_token = os.getenv 'SNYK_TOKEN'
+
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -203,7 +205,7 @@ return {
                 activateSnykIac = 'true',
                 activateSnykOpenSource = 'true',
                 activateSnykCode = 'true',
-                token = os.getenv 'SNYK_TOKEN',
+                token = 'efbdda2a-eab8-46ab-a103-cd439f5caa40',
                 organization = 'Devops-OnPrem',
                 trustedFolders = { '/home/bredman/source/' },
               },
