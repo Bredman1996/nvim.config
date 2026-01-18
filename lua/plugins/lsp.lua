@@ -171,91 +171,82 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-      local servers = {
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
-        lua_ls = {
-          -- cmd = {...},
-          -- filetypes = { ...},
-          -- capabilities = {},
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
-            },
-            terraformls = {},
-            hclfmt = {},
-            snyk_ls = {
-              filetypes = { 'terraform', 'terraform-vars' },
-              settings = {},
-              init_options = {
-                activateSnykIac = 'true',
-                activateSnykOpenSource = 'true',
-                activateSnykCode = 'true',
-                token = 'efbdda2a-eab8-46ab-a103-cd439f5caa40',
-                organization = 'Devops-OnPrem',
-                trustedFolders = { '/home/bredman/source/' },
+      local servers =
+        {
+          clangd = {},
+          gopls = {},
+          -- pyright = {},
+          -- rust_analyzer = {},
+          -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
+          --
+          -- Some languages (like typescript) have entire language plugins that can be useful:
+          --    https://github.com/pmizio/typescript-tools.nvim
+          --
+          -- But for many setups, the LSP (`ts_ls`) will work just fine
+          -- ts_ls = {},
+          --
+          lua_ls = {
+            -- cmd = {...},
+            -- filetypes = { ...},
+            -- capabilities = {},
+            settings = {
+              Lua = {
+                completion = {
+                  callSnippet = 'Replace',
+                },
+                -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+                -- diagnostics = { disable = { 'missing-fields' } },
               },
             },
-            powershell_es = {
-              filetypes = {
-                'ps1',
-                'psm1',
-                'psd1',
-              },
-              settings = {
-                powershell = {
-                  codeFormatting = {
-                    tabSize = 4,
-                    useTabs = false,
-                  },
+          },
+          terraformls = {},
+          hclfmt = {},
+          powershell_es = {
+            filetypes = {
+              'ps1',
+              'psm1',
+              'psd1',
+            },
+            settings = {
+              powershell = {
+                codeFormatting = {
+                  tabSize = 4,
+                  useTabs = false,
                 },
               },
-              init_options = {
-                enableProfileLoading = false,
-              },
             },
-            azure_pipelines_ls = {
+            init_options = {
+              enableProfileLoading = false,
+            },
+          },
+          azure_pipelines_ls = {
+            settings = {
               settings = {
-                settings = {
-                  yaml = {
-                    schemas = {
-                      ['https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json'] = {
-                        'pipelines/*.y*l',
-                        'azure-pipelines.yml',
-                        'azure-pipelines.yaml',
-                        '*.azure-pipelines.yml',
-                        '*.azure-pipelines.yaml',
-                      },
+                yaml = {
+                  schemas = {
+                    ['https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json'] = {
+                      'pipelines/*.y*l',
+                      'azure-pipelines.yml',
+                      'azure-pipelines.yaml',
+                      '*.azure-pipelines.yml',
+                      '*.azure-pipelines.yaml',
                     },
                   },
                 },
               },
             },
           },
+          html = {
+            filetype = { 'html', 'htm', 'tmpl' },
+          },
         },
-      }
-
-      -- Ensure the servers and tools above are installed
-      --  To check the current status of installed tools and/or manually install
-      --  other tools, you can run
-      --    :Mason
-      --
-      --  You can press `g?` for help in this menu.
-      require('mason').setup()
+        -- Ensure the servers and tools above are installed
+        --  To check the current status of installed tools and/or manually install
+        --  other tools, you can run
+        --    :Mason
+        --
+        --  You can press `g?` for help in this menu.
+        require('mason').setup()
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
