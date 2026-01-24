@@ -32,32 +32,32 @@ return {
       -- Run nearest test
       vim.keymap.set('n', '<Leader>tn', function()
         neotest.run.run { strategy = 'dap' } -- runs in dap if possible
-      end, opts)
+      end, { noremap = true, silent = true, desc = 'Run nearest test' })
 
       -- Run all tests in current file
       vim.keymap.set('n', '<Leader>tf', function()
         neotest.run.run(vim.fn.expand '%')
-      end, opts)
+      end, { noremap = true, silent = true, desc = 'Run all tests in current file' })
 
       -- Run all tests in project
       vim.keymap.set('n', '<Leader>tp', function()
         neotest.run.run { vim.fn.getcwd() }
-      end, opts)
+      end, { noremap = true, silent = true, desc = 'Run all tests in project' })
 
       -- Debug nearest test
       vim.keymap.set('n', '<Leader>td', function()
         neotest.run.run { strategy = 'dap' }
-      end, opts)
+      end, { noremap = true, silent = true, desc = 'Debug nearest test' })
 
       -- Show test summary in floating window
       vim.keymap.set('n', '<Leader>ts', function()
         neotest.summary.toggle()
-      end, opts)
+      end, { noremap = true, silent = true, desc = 'Show test summary in floating window' })
 
       -- Show test output for last run test
       vim.keymap.set('n', '<Leader>to', function()
         neotest.output.open { enter = true }
-      end, opts)
+      end, { noremap = true, silent = true, desc = 'Show test output for last run' })
     end,
   },
 }
