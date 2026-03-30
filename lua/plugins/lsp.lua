@@ -128,6 +128,20 @@ return {
 				html = {
 					filetype = { "html", "htm", "tmpl" },
 				},
+				yamlls = {
+					settings = {
+						yaml = {
+							format = { enable = true },
+							validate = true,
+							hover = true,
+							schemas = {
+								["https://raw.githubusercontent.com/harness/harness-schema/main/v0/pipeline.json"] = {
+									".harness/templates/**/*.yaml",
+								},
+							},
+						},
+					},
+				},
 			}
 
 			require("mason-lspconfig").setup({
