@@ -146,6 +146,9 @@ return {
 								["https://raw.githubusercontent.com/harness/harness-schema/main/v0/pipeline.json"] = {
 									".harness/templates/**/*.yaml",
 								},
+								["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+									"pipelines/*.y*l",
+								},
 							},
 						},
 					},
