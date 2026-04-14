@@ -3,7 +3,11 @@ return {
 	--	dir = "~/source/web-search.nvim",
 	config = function()
 		require("web-search").setup({
-			sourceMaps = {},
+			sourceMaps = {
+				-- { name = "", source = "" },
+				{ name = "harness", source = "harness/harness" },
+				{ name = "cloudflare", source = "cloudflare/cloudflare" },
+			},
 			searchEngine = "duckduckgo",
 		})
 		vim.keymap.set("n", "<leader>wS", "<cmd>WebSearch<CR>", { desc = "WebSearch Prompt" })
