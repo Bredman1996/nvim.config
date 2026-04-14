@@ -148,6 +148,6 @@ require("lazy").setup("plugins")
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
 
-vim.lsp.set_log_level("debug")
+vim.lsp.log.set_level("debug")
 
 -- vim.o.termguicolors = true
