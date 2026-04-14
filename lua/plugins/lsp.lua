@@ -135,7 +135,7 @@ return {
 							validate = true,
 							hover = true,
 							schemas = {
-								["https://raw.githubusercontent.com/harness/harness-schema/main/v0/pipeline.json"] = {
+								["https://raw.githubusercontent.com/harness/harness-schema/main/v0/template.json"] = {
 									".harness/templates/**/*.yaml",
 								},
 								["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
