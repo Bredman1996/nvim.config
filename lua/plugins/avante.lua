@@ -1,6 +1,8 @@
 return {
 	{
-		"yetone/avante.nvim",
+		"bredman1996/avante-cursor.nvim",
+		-- dir = "~/source/avante-cursor.nvim",
+		main = "avante",
 		build = vim.fn.has("win32") ~= 0
 				and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
 			or "make",
