@@ -134,7 +134,6 @@ return {
 							format = { enable = true },
 							validate = true,
 							hover = true,
-							editor = { tabSize = 2 },
 							schemas = {
 								["https://raw.githubusercontent.com/harness/harness-schema/main/v0/template.json"] = {
 									".harness/templates/**/*.yaml",
