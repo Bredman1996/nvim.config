@@ -122,19 +122,23 @@ end
 -- --------------------------------
 function M.build_and_debug()
 	vim.notify("dotnet build", vim.log.levels.INFO)
+	local stdout = { "Build stdout:" }
+	local stderr = { "Build stderr:" }
 
 	vim.fn.jobstart({ "dotnet", "build" }, {
 		on_stdout = function(_, data, event)
 			for key, value in pairs(data) do
-				vim.notify(string.format("%s", value), vim.log.levels.INFO)
+				table.insert(stdout, string.format("%s", value))
 			end
 		end,
 		on_stderr = function(_, data, event)
 			for key, value in pairs(data) do
-				vim.notify(string.format("%s", value), vim.log.levels.INFO)
+				table.insert(stderr, string.format("%s", value))
 			end
 		end,
 		on_exit = function(id, code, event)
+			vim.notify(table.concat(stdout, "\n\t"), vim.log.levels.INFO)
+			vim.notify(table.concat(stderr, "\n\t"), vim.log.levels.ERROR)
 			if code ~= 0 then
 				vim.notify("Build failed", vim.log.levels.ERROR)
 				return

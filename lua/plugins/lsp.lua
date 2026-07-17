@@ -142,6 +142,9 @@ return {
 									"pipelines/*.y*l",
 								},
 							},
+							editor = {
+								formatOnType = false,
+							},
 						},
 					},
 				},
