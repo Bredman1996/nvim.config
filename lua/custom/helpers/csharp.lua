@@ -108,7 +108,7 @@ local function find_startup_dll_async(cb)
 		table.sort(candidates, function(a, b)
 			return vim.fn.getftime(a) > vim.fn.getftime(b)
 		end)
-		cb(candidates[1])
+		cb(candidates[1], "Normal")
 		return
 	end
 
@@ -137,8 +137,13 @@ function M.build_and_debug()
 			end
 		end,
 		on_exit = function(id, code, event)
-			vim.notify(table.concat(stdout, "\n\t"), vim.log.levels.INFO)
-			vim.notify(table.concat(stderr, "\n\t"), vim.log.levels.ERROR)
+			if #stdout > 1 then
+				vim.notify(table.concat(stdout, "\n\t"), vim.log.levels.INFO)
+			end
+			if #stderr > 1 then
+				vim.notify(table.concat(stderr, "\n\t"), vim.log.levels.ERROR)
+			end
+
 			if code ~= 0 then
 				vim.notify("Build failed", vim.log.levels.ERROR)
 				return
@@ -146,9 +151,11 @@ function M.build_and_debug()
 
 			find_startup_dll_async(function(dll, type)
 				if not dll then
+					vim.notify("No dll sent", vim.log.levels.INFO)
 					return
 				end
-				if type == "Normal" then
+				if type ~= "AzureFunc" then
+					vim.notify("starting normal", vim.log.levels.INFO)
 					dap.run({
 						type = "coreclr",
 						name = "Launch",

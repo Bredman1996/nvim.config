@@ -151,6 +151,15 @@ return {
 				dockerls = {},
 				-- ts_ls = {},
 				pylsp = {},
+				roslyn_ls = {
+					filetypes = { "cs" },
+					settings = {
+						["csharp|background_analysis"] = {
+							dotnet_analyzer_diagnostics_scope = "openFiles",
+							dotnet_compiler_diagnostics_scope = "openFiles",
+						},
+					},
+				},
 			}
 
 			require("mason-lspconfig").setup({
