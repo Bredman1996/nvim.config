@@ -124,6 +124,41 @@ function M.build_and_debug()
 	vim.notify("dotnet build", vim.log.levels.INFO)
 	local stdout = { "Build stdout:" }
 	local stderr = { "Build stderr:" }
+	local function load_launch_settings()
+		local path = vim.fn.getcwd() .. "/Properties/launchSettings.json"
+		if vim.fn.filereadable(path) == 0 then
+			return {}
+		end
+
+		local content = table.concat(vim.fn.readfile(path), "\n")
+		local ok, parsed = pcall(vim.json.decode, content)
+		if not ok then
+			return {}
+		end
+
+		local profile_name
+		local profile
+
+		for name, p in pairs(parsed.profiles) do
+			if p.commandName == "Project" then
+				profile_name = name
+				profile = p
+				break
+			end
+		end
+
+		if not profile then
+			vim.notify("Didn't find a project profile", vim.log.levels.WARN)
+			return {}
+		end
+
+		return {
+			profile_name = profile_name,
+			applicationUrl = profile.applicationUrl,
+			environmentVariables = profile.environmentVariables or {},
+			commandLineArgs = profile.commandLineArgs or {},
+		}
+	end
 
 	vim.fn.jobstart({ "dotnet", "build" }, {
 		on_stdout = function(_, data, event)
@@ -155,12 +190,24 @@ function M.build_and_debug()
 					return
 				end
 				if type ~= "AzureFunc" then
-					vim.notify("starting normal", vim.log.levels.INFO)
 					dap.run({
 						type = "coreclr",
 						name = "Launch",
 						request = "launch",
 						program = dll,
+						env = function()
+							local profile = load_launch_settings()
+							return vim.tbl_extend("force", profile.environmentVariables, {
+								ASPNETCORE_URLS = profile.applicationUrl,
+							})
+						end,
+						-- args = function()
+						-- 	local profile = load_launch_settings()
+						-- 	if profile and profile.commandLineArgs then
+						-- 		return vim.split(profile.commandLineArgs, " ")
+						-- 	end
+						-- 	return {}
+						-- end,
 					})
 				end
 				if type == "AzureFunc" then

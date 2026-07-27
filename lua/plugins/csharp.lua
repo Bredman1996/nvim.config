@@ -33,6 +33,20 @@ return {
 				args = { "--interpreter=vscode" },
 			}
 
+			local function load_launch_settings()
+				local path = vim.fn.getcwd() .. "/Properties/launchSettings.json"
+				if vim.fn.filereadable(path) == 0 then
+					return {}
+				end
+
+				local content = table.concat(vim.fn.readfile(path), "\n")
+				local ok, parsed = pcall(vim.json.decode, content)
+				if not ok then
+					return {}
+				end
+				return parsed.profiles or {}
+			end
+
 			-- Configurations
 			dap.configurations.cs = {
 				{
@@ -42,12 +56,42 @@ return {
 					program = function()
 						return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/bin/Debug/", "file")
 					end,
+					env = function()
+						vim.notify("loading env", vim.log.levels.INFO)
+						local profiles = load_launch_settings()
+						local profile = profiles[1] or next(profiles)
+						return profile and profile.environmentVariables or nil
+					end,
+					args = function()
+						vim.notify("loading args", vim.log.levels.INFO)
+						local profiles = load_launch_settings()
+						local profile = profiles[1] or next(profiles)
+						if profile and profile.commandLineArgs then
+							return vim.split(profile.commandLineArgs, " ")
+						end
+						return {}
+					end,
 				},
 				{
 					type = "coreclr",
 					name = "Attach to process",
 					request = "attach",
 					processId = require("dap.utils").pick_process,
+					env = function()
+						vim.notify("loading env", vim.log.levels.INFO)
+						local profiles = load_launch_settings()
+						local profile = profiles[1] or next(profiles)
+						return profile and profile.environmentVariables or nil
+					end,
+					args = function()
+						vim.notify("loading args", vim.log.levels.INFO)
+						local profiles = load_launch_settings()
+						local profile = profiles[1] or next(profiles)
+						if profile and profile.commandLineArgs then
+							return vim.split(profile.commandLineArgs, " ")
+						end
+						return {}
+					end,
 				},
 			}
 
