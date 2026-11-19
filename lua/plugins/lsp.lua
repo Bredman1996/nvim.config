@@ -105,7 +105,8 @@ return {
 						},
 					},
 				},
-				terraformls = {},
+				-- terraformls = {},
+				tofu_ls = {},
 				hclfmt = {},
 				powershell_es = {
 					filetypes = {
@@ -129,6 +130,15 @@ return {
 					filetype = { "html", "htm", "tmpl" },
 				},
 				yamlls = {
+					on_attach = function(client, bufnr)
+						local buf_name = vim.api.nvim_buf_get_name(bufnr)
+						local exclude_dir = "k8s/"
+
+						if string.find(buf_name, exclude_dir, nil, true) then
+							vim.notify("Detaching yamlls client for k8s file", vim.log.levels.INFO)
+							vim.lsp.buf_detach_client(bufnr, client.id)
+						end
+					end,
 					settings = {
 						yaml = {
 							format = { enable = true },
@@ -140,6 +150,8 @@ return {
 								},
 								["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
 									"pipelines/*.y*l",
+									".azure-devops/pipelines/*.y*l",
+									"azure-pipelines/*.y*l",
 								},
 							},
 							editor = {
@@ -149,7 +161,7 @@ return {
 					},
 				},
 				dockerls = {},
-				-- ts_ls = {},
+				ts_ls = {},
 				pylsp = {},
 				roslyn_ls = {
 					filetypes = { "cs" },
@@ -157,6 +169,16 @@ return {
 						["csharp|background_analysis"] = {
 							dotnet_analyzer_diagnostics_scope = "openFiles",
 							dotnet_compiler_diagnostics_scope = "openFiles",
+						},
+					},
+				},
+				helm_ls = {
+					cmd = { "helm_ls", "serve" },
+					filetypes = { "helm" },
+					root_markers = { "Chart.yaml" },
+					settings = {
+						["helm_ls"] = {
+							yamlls = { path = "yaml-language-server" },
 						},
 					},
 				},
